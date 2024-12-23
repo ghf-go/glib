@@ -2,17 +2,67 @@ package alipay
 
 import (
 	"crypto/md5"
+	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
 	"strings"
+
+	"github.com/ghf-go/glib/gcrypto"
 )
 
 // 正式环境：https://openapi.alipay.com
 // 沙箱环境：https://openapi-sandbox.dl.alipaydev.com
 
 type Client struct {
-	isV3 bool //是否是v3版本
+	isDebug          bool
+	appID            string //
+	appCertSn        string
+	alipayRootCertSn string
+	appPrivateKey    *rsa.PrivateKey
+	notifyUrl        string
+}
+
+func NewDebugClient(appID, notifyUrl, appKey, rootkey string) (*Client, error) {
+	ret := &Client{
+		isDebug:   true,
+		notifyUrl: notifyUrl,
+		appID:     appID,
+	}
+	p, e := gcrypto.RsaGetPrivatekey(appKey)
+	if e != nil {
+		return nil, e
+	}
+	ret.appPrivateKey = p
+	if rootkey != "" {
+		ret.appCertSn = getCertSN(appKey)
+		ret.alipayRootCertSn = getRootCertSN(rootkey)
+	}
+	return ret, nil
+}
+func NewClient(appID, notifyUrl, appKey, rootkey string) (*Client, error) {
+	ret := &Client{
+		isDebug:   false,
+		notifyUrl: notifyUrl,
+		appID:     appID,
+	}
+	p, e := gcrypto.RsaGetPrivatekey(appKey)
+	if e != nil {
+		return nil, e
+	}
+	ret.appPrivateKey = p
+	if rootkey != "" {
+		ret.appCertSn = getCertSN(appKey)
+		ret.alipayRootCertSn = getRootCertSN(rootkey)
+	}
+	return ret, nil
+}
+
+func (c *Client) getApiHost() string {
+	if c.isDebug {
+		return "https://openapi-sandbox.dl.alipaydev.com/gateway.do"
+	}
+	return "https://openapi.alipay.com/gateway.do"
 }
 
 // 获取应用sn
