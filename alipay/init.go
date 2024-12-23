@@ -11,7 +11,9 @@ import (
 // 正式环境：https://openapi.alipay.com
 // 沙箱环境：https://openapi-sandbox.dl.alipaydev.com
 
-type Client struct{}
+type Client struct {
+	isV3 bool //是否是v3版本
+}
 
 // 获取应用sn
 func getCertSN(certContent string) string {

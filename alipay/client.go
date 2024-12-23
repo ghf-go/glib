@@ -1,28 +1,69 @@
 package alipay
 
-// https://opendocs.alipay.com/open/cd12c885_alipay.trade.app.pay?pathHash=ab686e33&ref=api&scene=20
 // 支付
-func (c *Client) AppPayV2() {}
+func (c *Client) AppPay() {
+	if c.isV3 {
+		c.appPayV3()
+	} else {
+		c.appPayV2()
+	}
+}
+func (c *Client) H5Pay() {
+	if c.isV3 {
+		c.h5PayV3()
+	} else {
+		c.h5PayV2()
+	}
+}
+func (c *Client) PagePay() {
+	if c.isV3 {
+		c.pagePayV3()
+	} else {
+		c.pagePayV2()
+	}
+}
 
-// https://opendocs.alipay.com/open/6c0cdd7d_alipay.trade.refund?pathHash=4081e89c&ref=api&scene=common
 // 退款
-func (c *Client) AppRefundV2() {}
+func (c *Client) Refund() {
+	if c.isV3 {
+		c.refundV3()
+	} else {
+		c.refundV2()
+	}
+}
 
-// https://opendocs.alipay.com/open/ce0b4954_alipay.trade.close?pathHash=7b0fdae1&ref=api&scene=common
 // 关闭订单
-func (c *Client) AppCloseV2() {}
+func (c *Client) Close() {
+	if c.isV3 {
+		c.closeV3()
+	} else {
+		c.closeV2()
+	}
+}
 
-// https://opendocs.alipay.com/open/82ea786a_alipay.trade.query?pathHash=0745ecea&ref=api&scene=23
 // 订单查询
-func (c *Client) AppQueryV2() {}
+func (c *Client) Query() {
+	if c.isV3 {
+		c.queryV3()
+	} else {
+		c.queryV2()
+	}
+}
 
-// https://opendocs.alipay.com/open/8c776df6_alipay.trade.fastpay.refund.query?pathHash=fb6e1894&ref=api&scene=common
 // 退款查询
-func (c *Client) AppRefundQueryV2() {}
-
-// https://opendocs.alipay.com/open/fca5d17e_alipay.trade.refund.depositback.completed?pathHash=47d46319&ref=api&scene=common
-// 退款通知
-func (c *Client) RefundNotifyV2() {}
+func (c *Client) RefundQuery() {
+	if c.isV3 {
+		c.refundQueryV3()
+	} else {
+		c.refundQueryV2()
+	}
+}
 
 // 支付完成通知
-func (c *Client) PayNotifyV2() {}
+func (c *Client) Notify() {
+	if c.isV3 {
+		c.notifyV3()
+	} else {
+		c.notifyV2()
+	}
+}
