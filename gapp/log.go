@@ -1,9 +1,5 @@
 package gapp
 
-type Loger interface {
-	Write(string)
-}
-
 func debug(format string, arg ...any) {}
 func error(format string, arg ...any) {}
 
