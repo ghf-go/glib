@@ -6,4 +6,6 @@ use (
 	./gecharts
 	./gcrypto
 	./gutils
+	./gapp
+	./glog
 )
