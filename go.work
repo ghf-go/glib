@@ -3,4 +3,7 @@ go 1.21.4
 use (
 	./alipay
 	./gnet
+	./gecharts
+	./gcrypto
+	./gutils
 )
