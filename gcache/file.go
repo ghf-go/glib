@@ -155,7 +155,7 @@ func (c *fileCache) Decr(key string, step ...int) int {
 	ret := c.Get(key, "0")
 	rv, e := strconv.Atoi(ret)
 	if e != nil {
-		rv = sv
+		rv = -sv
 	} else {
 		rv -= sv
 	}
