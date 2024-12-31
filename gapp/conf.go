@@ -1,6 +1,8 @@
 package gapp
 
-import "strings"
+import (
+	"strings"
+)
 
 type conf struct {
 	App     *appConfig             `yaml:"app"`
