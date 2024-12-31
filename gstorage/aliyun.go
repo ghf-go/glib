@@ -14,6 +14,7 @@ import (
 
 // https://github.com/aliyun/alibabacloud-oss-go-sdk-v2/blob/master/README-CN.md
 // https://help.aliyun.com/zh/oss/user-guide/simple-upload?spm=a2c4g.11186623.help-menu-31815.d_2_3_1_0.658930244Xpq3w
+// https://help.aliyun.com/zh/oss/user-guide/form-upload?spm=a2c4g.11186623.help-menu-31815.d_2_3_1_4.5d4cb415B70GWk#22bb72dc11p2g
 type aliossStorage struct {
 	bucket     string
 	cdnHost    string

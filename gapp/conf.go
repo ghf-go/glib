@@ -2,7 +2,7 @@ package gapp
 
 import "strings"
 
-type Conf struct {
+type conf struct {
 	App     *appConfig             `yaml:"app"`
 	Dbs     map[string]dbConfig    `yaml:"dbs"`
 	Cache   map[string]cacheConfig `yaml:"cache"`

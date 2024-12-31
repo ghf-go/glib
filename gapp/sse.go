@@ -3,7 +3,7 @@ package gapp
 import "fmt"
 
 type Sse struct {
-	c       *GContent
+	c       *Content
 	isClose bool
 	key     string
 }
