@@ -8,6 +8,6 @@ use (
 	./gutils
 	./gapp
 	./glog
-	./gstore
+	./gstorage
 	./gcache
 )
