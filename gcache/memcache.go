@@ -11,13 +11,13 @@ import (
 
 type memcacheCache struct {
 	client *memcache.Client
-	conf   string
+	conf   gutils.ConfUrl
 }
 
-func NewMemcache(conf gutils.ConfUrl) *memcacheCache {
+func NewMemcache(c gutils.ConfUrl) *memcacheCache {
 	return &memcacheCache{
-		client: memcache.New(strings.Split(conf, ",")...),
-		conf:   conf,
+		client: memcache.New(strings.Split(c.Get("hosts", "127.0.0.1"), ",")...),
+		conf:   c,
 	}
 }
 func (c *memcacheCache) Get(key string, defval string) string {
@@ -45,7 +45,7 @@ func (c *memcacheCache) GetObj(key string, out any) error {
 }
 func (c *memcacheCache) GetAllObj(data map[string]any) {
 	keys := []string{}
-	for k, _ := range data {
+	for k := range data {
 		keys = append(keys, k)
 	}
 	retStr := c.GetAll(keys...)

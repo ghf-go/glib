@@ -12,9 +12,9 @@ import (
 	"github.com/ghf-go/glib/gutils"
 )
 
-func NewFileCache(conf gutils.ConfUrl) *fileCache {
+func NewFileCache(c gutils.ConfUrl) *fileCache {
 	return &fileCache{
-		dirName: dir,
+		dirName: c.Get("dir", "/tmp"),
 	}
 }
 

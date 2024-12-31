@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"net/url"
 	"time"
 
 	"github.com/ghf-go/glib/gutils"
@@ -13,25 +12,24 @@ import (
 
 type redisCache struct {
 	rd   *redis.Client
-	conf string
+	conf gutils.ConfUrl
 	ctx  context.Context
 }
 
-func NewRedisClient(conf gutils.ConfUrl) *redis.Client {
-
+func NewRedisClient(c gutils.ConfUrl) *redis.Client {
 	return redis.NewClient(&redis.Options{
-		Addr:     conf.Host(),
-		Username: rconf.User.Username(),
-		Password: upass,
-		// MinIdleConns:    rconf.Query().Get(),
-		// MaxIdleConns:    rconf.MaxIdleConns,
-		// MaxActiveConns:  rconf.MaxActiveConns,
-		// ConnMaxIdleTime: time.Minute * time.Duration(rconf.ConnMaxIdleTime),
-		// ConnMaxLifetime: time.Minute * time.Duration(rconf.ConnMaxLifetime),
+		Addr:            c.Host(),
+		Username:        c.User(),
+		Password:        c.Pass(),
+		MinIdleConns:    c.GetInt("MinIdleConns", 3),
+		MaxIdleConns:    c.GetInt("MaxIdleConns", 5),
+		MaxActiveConns:  c.GetInt("MaxActiveConns", 10),
+		ConnMaxIdleTime: c.GetDuration("ConnMaxIdleTime", 1800),
+		ConnMaxLifetime: c.GetDuration("ConnMaxLifetime", 1800),
 	})
 }
 
-func NewRedisCache(conf string) *redisCache {
+func NewRedisCache(conf gutils.ConfUrl) *redisCache {
 	return &redisCache{
 		rd:   NewRedisClient(conf),
 		conf: conf,
@@ -59,7 +57,7 @@ func (c *redisCache) GetObj(key string, out any) error {
 }
 func (c *redisCache) GetAllObj(data map[string]any) {
 	keys := []string{}
-	for k, _ := range data {
+	for k := range data {
 		keys = append(keys, k)
 	}
 	retStr := c.GetAll(keys...)

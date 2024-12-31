@@ -7,16 +7,19 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type dbCache struct {
-	db sql.DB
+	db *sql.DB
 	tb string
 }
 
-func NewDbCache(db sql.DB) *dbCache {
+func NewDbCache(gdb *gorm.DB) *dbCache {
 	tb := "t_cache"
 	rtb := ""
+	db, _ := gdb.DB()
 	db.QueryRow("show tables like ?", tb).Scan(&rtb)
 	if tb != rtb {
 		db.Exec(fmt.Sprintf("CREATE TABLE`%s` (`id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,`key` VARCHAR(30) NOT NULL DEFAULT '' COMMENT 'KEY',`val` TEXT NOT NULL COMMENT 'VAL',`expire_at` INT (11) NOT NULL DEFAULT 0 COMMENT '到期时间戳', PRIMARY KEY (`id`),UNIQUE KEY `uniq_key` (`key`),) ENGINE = innodb DEFAULT CHARSET = utf8mb4 COMMENT = '缓存表';", tb))
@@ -64,7 +67,7 @@ func (c *dbCache) GetObj(key string, out any) error {
 }
 func (c *dbCache) GetAllObj(data map[string]any) {
 	keys := []string{}
-	for k, _ := range data {
+	for k := range data {
 		keys = append(keys, k)
 	}
 	retStr := c.GetAll(keys...)

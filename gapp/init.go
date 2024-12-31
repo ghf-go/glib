@@ -11,7 +11,10 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/ghf-go/glib/gcache"
+	"github.com/redis/go-redis/v9"
 	uuid "github.com/satori/go.uuid"
+	"gorm.io/gorm"
 
 	"gopkg.in/yaml.v3"
 )
@@ -22,6 +25,10 @@ var (
 	jobs       *job       = newJob()
 	tpls       *template.Template
 	tplName    string
+
+	mapCache = map[string]gcache.Cache{}
+	mapRedis = map[string]*redis.Client{}
+	mapDb    = map[string]*gorm.DB{}
 )
 
 type Handle func(c *Content)
