@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/ghf-go/glib/gutils"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -16,14 +17,10 @@ type redisCache struct {
 	ctx  context.Context
 }
 
-func NewRedisClient(conf string) *redis.Client {
-	rconf, e := url.Parse(conf)
-	if e != nil {
-		panic(e.Error())
-	}
-	upass, _ := rconf.User.Password()
+func NewRedisClient(conf gutils.ConfUrl) *redis.Client {
+
 	return redis.NewClient(&redis.Options{
-		Addr:     rconf.Host,
+		Addr:     conf.Host(),
 		Username: rconf.User.Username(),
 		Password: upass,
 		// MinIdleConns:    rconf.Query().Get(),

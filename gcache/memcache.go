@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/bradfitz/gomemcache/memcache"
+	"github.com/ghf-go/glib/gutils"
 )
 
 type memcacheCache struct {
@@ -13,7 +14,7 @@ type memcacheCache struct {
 	conf   string
 }
 
-func NewMemcache(conf string) *memcacheCache {
+func NewMemcache(conf gutils.ConfUrl) *memcacheCache {
 	return &memcacheCache{
 		client: memcache.New(strings.Split(conf, ",")...),
 		conf:   conf,

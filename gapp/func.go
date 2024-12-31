@@ -2,12 +2,21 @@ package gapp
 
 import (
 	"github.com/ghf-go/glib/gcache"
+	"github.com/ghf-go/glib/gutils"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
 // 获取Cache
-func GetCache(conname ...string) gcache.Cache {
+func GetCache(name ...string) gcache.Cache {
+	cname := "default"
+	if len(name) > 0 {
+		cname = name[0]
+	}
+	if c, ok := config.Caches[cname]; ok {
+		cc := gutils.NewConfUrl(c)
+	}
+	sysError("配置错误")
 	return nil
 }
 

@@ -10,4 +10,5 @@ use (
 	./glog
 	./gstorage
 	./gcache
+	./gutils
 )

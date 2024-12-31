@@ -9,9 +9,10 @@ import (
 	"time"
 
 	"github.com/ghf-go/glib/gcrypto"
+	"github.com/ghf-go/glib/gutils"
 )
 
-func NewFileCache(dir string) *fileCache {
+func NewFileCache(conf gutils.ConfUrl) *fileCache {
 	return &fileCache{
 		dirName: dir,
 	}

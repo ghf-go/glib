@@ -1,6 +1,7 @@
 package gapp
 
-func debug(format string, arg ...any) {}
+func debug(format string, arg ...any)    {}
+func sysError(format string, arg ...any) {}
 
 func Debug(format string, arg ...any) {}
 func Error(format string, arg ...any) {}

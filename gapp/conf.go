@@ -5,43 +5,22 @@ import (
 )
 
 type conf struct {
-	App     *appConfig             `yaml:"app"`
-	Dbs     map[string]dbConfig    `yaml:"dbs"`
-	Cache   map[string]cacheConfig `yaml:"cache"`
-	Log     *logConfig             `yaml:"LogConfig"`
-	Stmp    map[string]smtpConfig  `yaml:"smtp"`
-	Payment PaymentConfig          `yaml:"payment"`
-	Lang    langConf               `yaml:"lang"`
-	Storage StorageConfig          `yaml:"storage"`
-	Oauth   oauthConf              `yaml:"oauth"`
-	Meta    MetaConf               `yaml:"meta"`
+	App     *appConfig        `yaml:"app"`
+	Dbs     map[string]string `yaml:"dbs"`
+	Caches  map[string]string `yaml:"cache"`
+	Log     string            `yaml:"LogConfig"`
+	Stmp    map[string]string `yaml:"smtp"`
+	Payment PaymentConfig     `yaml:"payment"`
+	Lang    langConf          `yaml:"lang"`
+	Storage map[string]string `yaml:"storage"`
+	Oauth   oauthConf         `yaml:"oauth"`
+	Meta    MetaConf          `yaml:"meta"`
 }
 type appConfig struct {
 	Port  int  `yaml:"port"`
 	Debug bool `yaml:"debug"`
 }
-type cacheConfig struct {
-	Host            string `yaml:"host"`
-	UserName        string `yaml:"username"`
-	Passwd          string `yaml:"passwd"`
-	MinIdleConns    int    `yaml:"min_idle_cons"`
-	MaxIdleConns    int    `yaml:"max_idle_cons"`
-	MaxActiveConns  int    `yaml:"max_active_cons"`
-	ConnMaxIdleTime int    `yaml:"con_max_idle_time"`
-	ConnMaxLifetime int    `yaml:"con_max_life_time"`
-}
-type dbConfig struct {
-	MaxIdleCons    int      `yaml:"max_idle_cons"`
-	MaxOpenCons    int      `yaml:"max_open_cons"`
-	ConMaxIdleTime int      `yaml:"con_max_idle_time"`
-	ConMaxLifeTime int      `yaml:"con_max_life_time"`
-	Write          string   `yaml:"write"`
-	Reads          []string `yaml:"reads"`
-}
-type logConfig struct {
-	Driver  string `yaml:"driver"`
-	DirPath string `yaml:"dirpath"`
-}
+
 type oauthConf struct {
 	WeChat oauthWeChatConf `yaml:"wechat"`
 }
@@ -82,20 +61,7 @@ type AliPaymentConfig struct {
 	AliGateWay    string `yaml:"gateway"`
 	AliPrivateKey string `yaml:"alipay_private_key"`
 }
-type smtpConfig struct {
-	Host     string `yaml:"host"`
-	UserName string `yaml:"username"`
-	Passwd   string `yaml:"passwd"`
-	AuthType string `yaml:"authtype"`
-}
-type StorageConfig struct {
-	Driver     string `yaml:"driver"`
-	CdnHost    string `yaml:"cnd_host"`
-	Ak         string `yaml:"ak"`
-	Sk         string `yaml:"sk"`
-	Bucket     string `yaml:"bucket"`
-	UploadHost string `yaml:"upload_host"`
-}
+
 type MetaConf map[string]any
 
 func (m MetaConf) Get(key string) any {
