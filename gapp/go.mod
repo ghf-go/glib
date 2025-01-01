@@ -2,8 +2,6 @@ module github.com/ghf-go/glib/gapp
 
 go 1.21.4
 
-toolchain go1.22.10
-
 require (
 	github.com/gorilla/websocket v1.5.3
 	github.com/redis/go-redis/v9 v9.7.0
