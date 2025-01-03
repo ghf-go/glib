@@ -71,15 +71,6 @@ func (ge *appserver) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 }
 
-// 验证是否登录的中间件
-func CheckoutLogin(c *Content) {
-	if c.IsLogin() {
-		c.Next()
-	} else {
-		c.FailJson(303, "账号没有登录")
-	}
-}
-
 func Run(confData []byte) {
 	if e := yaml.Unmarshal(confData, config); e != nil {
 		panic(e.Error())

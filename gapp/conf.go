@@ -17,8 +17,9 @@ type conf struct {
 	Meta    MetaConf          `yaml:"meta"`
 }
 type appConfig struct {
-	Port  int  `yaml:"port"`
-	Debug bool `yaml:"debug"`
+	Port    int               `yaml:"port"`
+	Debug   bool              `yaml:"debug"`
+	Session map[string]string `yaml:"session"`
 }
 
 type oauthConf struct {
