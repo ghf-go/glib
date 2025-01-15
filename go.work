@@ -12,4 +12,5 @@ use (
 	./gnet
 	./gstorage
 	./gutils
+	./gcaptha
 )
