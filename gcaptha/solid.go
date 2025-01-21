@@ -16,9 +16,23 @@ type solidImg struct {
 	w, h, offset int
 }
 
+// 生成信息
+func (this solidImg) GenCode() map[string]any {
+	return map[string]any{
+		"width":  this.w,
+		"height": this.h,
+		"tk":     "asdf",
+	}
+}
+
+// 验证
+func (this solidImg) Check(tk, code string) bool {
+	return false
+}
+
 // 生成图片
 func (this solidImg) Encode(out io.Writer) {
-	bh := this.w / 5
+	bh := this.w / 8
 	bw := bh + bh/4
 	img := image.NewRGBA(image.Rect(0, 0, this.w, this.h*2))
 	bg := this.bg()
@@ -27,7 +41,7 @@ func (this solidImg) Encode(out io.Writer) {
 		fmt.Printf("err %s\n", err.Error())
 	}
 	y := num.Int64() + 5
-	fmt.Println(y, this.h+int(y))
+	// fmt.Println(y, this.h+int(y))
 	draw.Draw(img, image.Rect(0, 0, this.w, this.h), bg, image.Point{}, draw.Src)
 	block := this.block(true)
 	x := bw + 5
@@ -44,7 +58,7 @@ func (this solidImg) Encode(out io.Writer) {
 	if simg, ok := subimg.(*image.RGBA); ok {
 		// draw.Draw(img, image.Rect(5, this.h+int(y), x, this.h+int(y)+bw), bg, image.Point{X: 5 + this.offset, Y: int(y)}, draw.Over)
 		draw.DrawMask(img, image.Rect(5, this.h+int(y), x, this.h+int(y)+bw), simg, image.Point{X: 5 + this.offset, Y: int(y)}, block, image.Point{}, draw.Over)
-		fmt.Println("生成字图片")
+		// fmt.Println("生成字图片")
 
 	}
 	block2 := this.block(false)
@@ -61,7 +75,7 @@ func (this solidImg) bg() *image.RGBA {
 	return img
 }
 func (this solidImg) block(ismark bool) image.Image {
-	w := this.w / 5
+	w := this.w / 8
 	r := w / 4
 	img := image.NewRGBA(image.Rect(0, 0, w+r, w))
 
@@ -71,12 +85,28 @@ func (this solidImg) block(ismark bool) image.Image {
 		for i := 0; i <= w; i++ {
 			img.Set(i, 0, color.Black)
 			img.Set(i, w-1, color.Black)
+
+			img.Set(i, 1, color.Black)
+			img.Set(i, w-2, color.Black)
+
+			img.Set(i, 2, color.Black)
+			img.Set(i, w-3, color.Black)
 		}
 		for i := 0; i <= r; i++ {
 			img.Set(0, i, color.Black)
 			img.Set(w-1, i, color.Black)
 			img.Set(0, w-i, color.Black)
 			img.Set(w-1, w-i, color.Black)
+
+			img.Set(1, i, color.Black)
+			img.Set(w-2, i, color.Black)
+			img.Set(1, w-i, color.Black)
+			img.Set(w-2, w-i, color.Black)
+
+			img.Set(2, i, color.Black)
+			img.Set(w-3, i, color.Black)
+			img.Set(2, w-i, color.Black)
+			img.Set(w-3, w-i, color.Black)
 
 		}
 
@@ -113,7 +143,7 @@ func (this solidImg) block(ismark bool) image.Image {
 		}
 	}
 	if !ismark {
-		r = r - 1
+		r = r - 3
 		r2 := r * r
 		for xi := 0; xi <= r; xi++ {
 			for yi := 0; yi <= 2*r; yi++ {
