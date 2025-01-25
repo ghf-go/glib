@@ -23,6 +23,16 @@ type Client struct {
 	notifyUrl        string
 }
 
+// NewDebugClient 创建一个用于调试的支付宝客户端实例
+// 参数:
+//   - appID: 支付宝应用ID
+//   - notifyUrl: 支付宝异步通知URL
+//   - appKey: 应用私钥
+//   - rootkey: 支付宝根证书内容
+//
+// 返回值:
+//   - *Client: 支付宝客户端实例
+//   - error: 错误信息，如果有的话
 func NewDebugClient(appID, notifyUrl, appKey, rootkey string) (*Client, error) {
 	ret := &Client{
 		isDebug:   true,
