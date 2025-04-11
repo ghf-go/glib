@@ -78,3 +78,44 @@ func String2Uint8(src string) uint8 {
 	}
 	return uint8(r)
 }
+
+func String2Int64(src string) int64 {
+	r, e := strconv.ParseInt(src, 10, 64)
+	if e != nil {
+		return 0
+	}
+	return r
+
+}
+func String2Int32(src string) int32 {
+	r, e := strconv.ParseInt(src, 10, 32)
+	if e != nil {
+		return 0
+	}
+	return int32(r)
+
+}
+func String2Int16(src string) int16 {
+	r, e := strconv.ParseInt(src, 10, 16)
+	if e != nil {
+		return 0
+	}
+	return int16(r)
+
+}
+func String2Int8(src string) int8 {
+	r, e := strconv.ParseInt(src, 10, 8)
+	if e != nil {
+		return 0
+	}
+	return int8(r)
+
+}
+func String2Int(src string) int {
+	r, e := strconv.Atoi(src)
+
+	if e != nil {
+		return 0
+	}
+	return r
+}
