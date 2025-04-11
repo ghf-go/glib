@@ -2,6 +2,7 @@ package gutils
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
 	"golang.org/x/exp/rand"
@@ -37,4 +38,43 @@ func HideEmail(email string) string {
 		return fmt.Sprintf("%s****%s", name[:ln-2], host)
 	}
 
+}
+
+func String2Uint64(src string) uint64 {
+	r, e := strconv.ParseUint(src, 10, 64)
+	if e != nil {
+		return 0
+	}
+	return r
+
+}
+func String2Uint32(src string) uint32 {
+	r, e := strconv.ParseUint(src, 10, 32)
+	if e != nil {
+		return 0
+	}
+	return uint32(r)
+}
+
+func String2Uint16(src string) uint16 {
+	r, e := strconv.ParseUint(src, 10, 16)
+	if e != nil {
+		return 0
+	}
+	return uint16(r)
+}
+func String2Uint(src string) uint {
+	r, e := strconv.ParseUint(src, 10, 64)
+	if e != nil {
+		return 0
+	}
+	return uint(r)
+}
+
+func String2Uint8(src string) uint8 {
+	r, e := strconv.ParseUint(src, 10, 8)
+	if e != nil {
+		return 0
+	}
+	return uint8(r)
 }
