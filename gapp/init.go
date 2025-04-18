@@ -20,7 +20,7 @@ import (
 )
 
 var (
-	webRouters *webRouter = newRootRouter()
+	webRouters *WebRouter = newRootRouter()
 	config     *conf      = &conf{}
 	jobs       *job       = newJob()
 	tpls       *template.Template
@@ -49,7 +49,7 @@ func WebDelete(path string, hand Handle, args ...Handle) {
 func WebPut(path string, hand Handle, args ...Handle) {
 	webRouters.Post(path, hand, args...)
 }
-func WebGroup(path string, args ...Handle) *webRouter {
+func WebGroup(path string, args ...Handle) *WebRouter {
 	return webRouters.Group(path, args...)
 }
 func (ge *appserver) ServeHTTP(w http.ResponseWriter, r *http.Request) {

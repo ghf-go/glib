@@ -119,3 +119,39 @@ func String2Int(src string) int {
 	}
 	return r
 }
+
+func String2Float64(src string) float64 {
+	r, e := strconv.ParseFloat(src, 64)
+	if e != nil {
+		return 0
+	}
+	return r
+}
+func String2Float32(src string) float32 {
+	r, e := strconv.ParseFloat(src, 32)
+	if e != nil {
+		return 0
+	}
+	return float32(r)
+}
+func String2Float(src string) float64 {
+	r, e := strconv.ParseFloat(src, 64)
+	if e != nil {
+		return 0
+	}
+	return r
+}
+func String2Bool(src string) bool {
+	r, e := strconv.ParseBool(src)
+	if e != nil {
+		return false
+	}
+	return r
+}
+func String2BoolDefault(src string, def bool) bool {
+	r, e := strconv.ParseBool(src)
+	if e != nil {
+		return def
+	}
+	return r
+}

@@ -2,20 +2,20 @@ package gapp
 
 import "strings"
 
-type webRouter struct {
-	groups     map[string]*webRouter
+type WebRouter struct {
+	groups     map[string]*WebRouter
 	methods    map[string][]Handle
 	middlefunc []Handle
 	err404     Handle
 }
 
-func newRootRouter(args ...Handle) *webRouter {
+func newRootRouter(args ...Handle) *WebRouter {
 	args = append([]Handle{func(c *Content) {
 		c.Next()
 		c.Flush()
 	}}, args...)
-	return &webRouter{
-		groups:     map[string]*webRouter{},
+	return &WebRouter{
+		groups:     map[string]*WebRouter{},
 		methods:    map[string][]Handle{},
 		middlefunc: args,
 		err404: func(c *Content) {
@@ -24,16 +24,16 @@ func newRootRouter(args ...Handle) *webRouter {
 	}
 }
 
-func (r *webRouter) Error404(err404 Handle) {
+func (r *WebRouter) Error404(err404 Handle) {
 	r.err404 = err404
 }
-func (r *webRouter) Group(path string, args ...Handle) *webRouter {
+func (r *WebRouter) Group(path string, args ...Handle) *WebRouter {
 	for strings.HasPrefix(path, "/") {
 		path = path[1:]
 	}
 	path = strings.ToLower(path)
-	nr := &webRouter{
-		groups:     map[string]*webRouter{},
+	nr := &WebRouter{
+		groups:     map[string]*WebRouter{},
 		methods:    map[string][]Handle{},
 		middlefunc: append(r.middlefunc, args...),
 		err404:     r.err404,
@@ -41,28 +41,28 @@ func (r *webRouter) Group(path string, args ...Handle) *webRouter {
 	r.groups[path] = nr
 	return nr
 }
-func (r *webRouter) Get(path string, hand Handle, args ...Handle) {
+func (r *WebRouter) Get(path string, hand Handle, args ...Handle) {
 	r.addmethods("get", path, hand, args...)
 }
-func (r *webRouter) Post(path string, hand Handle, args ...Handle) {
+func (r *WebRouter) Post(path string, hand Handle, args ...Handle) {
 	r.addmethods("post", path, hand, args...)
 }
-func (r *webRouter) Delete(path string, hand Handle, args ...Handle) {
+func (r *WebRouter) Delete(path string, hand Handle, args ...Handle) {
 	r.addmethods("delete", path, hand, args...)
 }
-func (r *webRouter) Put(path string, hand Handle, args ...Handle) {
+func (r *WebRouter) Put(path string, hand Handle, args ...Handle) {
 	r.addmethods("put", path, hand, args...)
 }
-func (r *webRouter) Options(path string, hand Handle, args ...Handle) {
+func (r *WebRouter) Options(path string, hand Handle, args ...Handle) {
 	r.addmethods("options", path, hand, args...)
 }
-func (r *webRouter) Head(path string, hand Handle, args ...Handle) {
+func (r *WebRouter) Head(path string, hand Handle, args ...Handle) {
 	r.addmethods("head", path, hand, args...)
 }
-func (r *webRouter) Any(path string, hand Handle, args ...Handle) {
+func (r *WebRouter) Any(path string, hand Handle, args ...Handle) {
 	r.addmethods("any", path, hand, args...)
 }
-func (r *webRouter) addmethods(methodname, path string, hand Handle, args ...Handle) {
+func (r *WebRouter) addmethods(methodname, path string, hand Handle, args ...Handle) {
 	for strings.HasPrefix(path, "/") {
 		path = path[1:]
 	}
@@ -70,8 +70,8 @@ func (r *webRouter) addmethods(methodname, path string, hand Handle, args ...Han
 	if item, ok := r.groups[path]; ok {
 		item.methods[strings.ToUpper(methodname)] = append([]Handle{hand}, args...)
 	} else {
-		nr := &webRouter{
-			groups:     map[string]*webRouter{},
+		nr := &WebRouter{
+			groups:     map[string]*WebRouter{},
 			methods:    map[string][]Handle{strings.ToUpper(methodname): append([]Handle{hand}, args...)},
 			middlefunc: r.middlefunc,
 		}
@@ -79,7 +79,7 @@ func (r *webRouter) addmethods(methodname, path string, hand Handle, args ...Han
 	}
 
 }
-func (r *webRouter) FindHandle(methodname, path string) (bool, []Handle) {
+func (r *WebRouter) FindHandle(methodname, path string) (bool, []Handle) {
 	for strings.HasPrefix(path, "/") {
 		path = path[1:]
 	}
@@ -87,7 +87,7 @@ func (r *webRouter) FindHandle(methodname, path string) (bool, []Handle) {
 	path = strings.ToLower(path)
 	ps := strings.Split(path, "/")
 	// fmt.Printf("路由信息 %s - %v\n", path, ps)
-	var rt *webRouter
+	var rt *WebRouter
 	error404 := r.err404
 	funcs := r.middlefunc
 	for _, k := range ps {
@@ -118,7 +118,7 @@ func (r *webRouter) FindHandle(methodname, path string) (bool, []Handle) {
 	// fmt.Printf("没有找打路由 %d", len(append(funcs, error404)))
 	return false, append(funcs, error404)
 }
-func (r *webRouter) findPath(name string) *webRouter {
+func (r *WebRouter) findPath(name string) *WebRouter {
 	// fmt.Printf("查找信息 %s -> %v\n", name, r.groups)
 	if rr, ok := r.groups[name]; ok {
 
