@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ghf-go/glib/gcache"
+	"github.com/ghf-go/glib/gnet"
 	"github.com/ghf-go/glib/gutils"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/driver/mysql"
@@ -95,6 +96,11 @@ func Tx(db *gorm.DB, call func(tx *gorm.DB) (error, any)) (error, any) {
 	}
 	tx.Commit()
 	return e, ret
+}
+
+// 发送邮件
+func SendMail(email, subject, body string) error {
+	return gnet.SendEmail(config.Stmp.User, config.Stmp.Password, config.Stmp.Host, config.Stmp.Port, []string{email}, subject, body)
 }
 
 // // 通过本机发送邮件

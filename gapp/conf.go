@@ -9,12 +9,18 @@ type conf struct {
 	Dbs     map[string]string `yaml:"dbs"`
 	Caches  map[string]string `yaml:"cache"`
 	Log     string            `yaml:"LogConfig"`
-	Stmp    map[string]string `yaml:"smtp"`
+	Stmp    stmpConf          `yaml:"smtp"`
 	Payment PaymentConfig     `yaml:"payment"`
 	Lang    langConf          `yaml:"lang"`
 	Storage map[string]string `yaml:"storage"`
 	Oauth   oauthConf         `yaml:"oauth"`
 	Meta    MetaConf          `yaml:"meta"`
+}
+type stmpConf struct {
+	Host     string `yaml:"host"`
+	Port     string `yaml:"port"`
+	User     string `yaml:"user"`
+	Password string `yaml:"password"`
 }
 type appConfig struct {
 	Port    int               `yaml:"port"`
