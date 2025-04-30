@@ -98,6 +98,11 @@ func Tx(db *gorm.DB, call func(tx *gorm.DB) (error, any)) (error, any) {
 	return e, ret
 }
 
+// 执行SQL语句
+func ExecSql(sql string, args ...any) error {
+	return GetDB().Exec(sql, args...).Error
+}
+
 // 发送邮件
 func SendMail(email, subject, body string) error {
 	return gnet.SendEmail(config.Stmp.User, config.Stmp.Password, config.Stmp.Host, config.Stmp.Port, []string{email}, subject, body)
